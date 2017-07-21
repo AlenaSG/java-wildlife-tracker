@@ -27,12 +27,6 @@ public class EndangeredAnimalTest {
     assertTrue(testEndangeredAnimal.getSightings().containsAll(Arrays.asList(sightings)));
   }
 
-  // @Test
-  // public void getHealth_returnsHealthAttribute_true() {
-  //   EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
-  //   assertEquals("Healthy", testEndangeredAnimal.getHealth());
-  // }
-
   @Test
   public void save_assignsIdAndSavesObjectToDatabase() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox");
@@ -59,6 +53,30 @@ public class EndangeredAnimalTest {
     secondEndangeredAnimal.save();
     assertEquals(EndangeredAnimal.find(secondEndangeredAnimal.getId()), secondEndangeredAnimal);
   }
+
+  @Test//new
+ public void updateName_updatesAnimalName_true() {
+   EndangeredAnimal firstEndangeredAnimal = new EndangeredAnimal("Fox");
+   firstEndangeredAnimal.save();
+   firstEndangeredAnimal.updateName("Wolf");
+   assertEquals("Wolf", EndangeredAnimal.find(firstEndangeredAnimal.getId()).getName());
+ }
+
+ @Test//new
+ public void delete_deletesAnimal_true() {
+   EndangeredAnimal firstEndangeredAnimal = new EndangeredAnimal("Fox");
+   firstEndangeredAnimal.save();
+   int firstEndangeredAnimalId = firstEndangeredAnimal.getId();
+   firstEndangeredAnimal.delete();
+   assertEquals(null, EndangeredAnimal.find(firstEndangeredAnimalId));
+ }
+
+  // @Test
+  // public void getHealth_returnsHealthAttribute_true() {
+  //   EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+  //   assertEquals("Healthy", testEndangeredAnimal.getHealth());
+  // }
+
 
   // @Test
   // public void update_updatesHealthAttribute_true() {

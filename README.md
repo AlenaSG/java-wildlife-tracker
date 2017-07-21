@@ -8,7 +8,8 @@ The Forest Service is considering a proposal from a timber company to clearcut a
 ### Refactoring Notes:
 1. Create abstract class for animals include endangered and non-endangered as extensions. Add tests and database.
 1a. Move health and age in Endangered Animals from properties to constants.
-2. Include timestamp for each sighting.
+2. Include timestamp for each sighting. and tests
+3. Update methods and tests were fixed
 3. Make sure constants are used in at least 1 class.
 4. Rearrange App.java.
 

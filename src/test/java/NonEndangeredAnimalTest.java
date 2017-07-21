@@ -55,20 +55,23 @@ public class NonEndangeredAnimalTest {
     assertEquals(NonEndangeredAnimal.find(secondNonEndangeredAnimal.getId()), secondNonEndangeredAnimal);
   }
 
-  // @Test
-  // public void delete_deletesNonEndangeredAnimalFromDatabase_0() {
-  //   NonEndangeredAnimal testNonEndangeredAnimal = new NonEndangeredAnimal("Deer");
-  //   testNonEndangeredAnimal.save();
-  //   testNonEndangeredAnimal.delete();
-  //   assertEquals(0, NonEndangeredAnimal.all().size());
-  // }
-  //
-  // public void updateName_updatesNonEndangeredAnimalNameInDatabase_String() {
-  //   NonEndangeredAnimal testNonEndangeredAnimal = new NonEndangeredAnimal("Deer");
-  //   testNonEndangeredAnimal.save();
-  //   testNonEndangeredAnimal.updateName("Buck");
-  //   assertEquals("Buck", testNonEndangeredAnimal.getName());
-  // }
+  @Test//new
+   public void updateName_updatesAnimalName_true() {
+     NonEndangeredAnimal firstNonEndangeredAnimal = new NonEndangeredAnimal("Fox");
+     firstNonEndangeredAnimal.save();
+     firstNonEndangeredAnimal.updateName("Wolf");
+     assertEquals("Wolf", NonEndangeredAnimal.find(firstNonEndangeredAnimal.getId()).getName());
+   }//assertEquals("Wolf", firstNonEndangeredAnimal.getName());
+
+   @Test//new
+   public void delete_deletesAnimal_true() {
+     NonEndangeredAnimal firstNonEndangeredAnimal = new NonEndangeredAnimal("Fox");
+     firstNonEndangeredAnimal.save();
+     int firstNonEndangeredAnimalId = firstNonEndangeredAnimal.getId();
+     firstNonEndangeredAnimal.delete();
+     assertEquals(null, NonEndangeredAnimal.find(firstNonEndangeredAnimalId));
+   }//assertEquals(0, NonEndangeredAnimal.all().size());
+
 
   @Test
   public void find_returnsNullWhenNoNonEndangeredAnimalFound_null() {

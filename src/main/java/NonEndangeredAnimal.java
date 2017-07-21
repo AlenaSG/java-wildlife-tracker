@@ -3,8 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NonEndangeredAnimal extends Animal {
-//private int fireLevel;
-//public static final String MAX_FIRE_LEVEL = 10;
+
 public static final String DATABASE_TYPE = "nonendangered";
 
 
