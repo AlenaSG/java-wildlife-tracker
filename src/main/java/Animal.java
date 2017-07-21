@@ -2,16 +2,13 @@ import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal {
+public abstract class Animal {
+
+  public String type;
   public String name;
   public int id;
 
-  public Animal(String name) {
-    this.name = name;
-    this.id = id;
-  }
-
-  public String getName() {
+public String getName() {
     return name;
   }
 
@@ -31,56 +28,42 @@ public class Animal {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name) VALUES (:name);";
+      String sql = "INSERT INTO animals (name, type) VALUES (:name, :type);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", this.name)
+        .addParameter("type", this.type)
         .executeUpdate()
         .getKey();
     }
   }
 
-  public static List<Animal> all() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals;";
-      return con.createQuery(sql)
-        .executeAndFetch(Animal.class);
-    }
-  }
 
-  public static Animal find(int id) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals WHERE id=:id;";
-      Animal animal = con.createQuery(sql)
-        .addParameter("id", id)
-        .executeAndFetchFirst(Animal.class);
-      return animal;
-    }
-  }
+  //
+  // public void updateName(String name) {//leave here in abstract
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "UPDATE animals SET name=:name WHERE id=:id;";
+  //     con.createQuery(sql)
+  //       .addParameter("id", id)
+  //       .addParameter("name", name)
+  //       .executeUpdate();
+  //   }
+  // }
+  //
+  // public void delete() {
+  //   try(Connection con = DB.sql2o.open()) {//leave here in abstract
+  //     String sql = "DELETE FROM animals WHERE id=:id;";
+  //     con.createQuery(sql)
+  //       .addParameter("id", id)
+  //       .executeUpdate();
+  //   }
+  // }
 
-  public void updateName(String name) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE animals SET name=:name WHERE id=:id;";
-      con.createQuery(sql)
-        .addParameter("id", id)
-        .addParameter("name", name)
-        .executeUpdate();
-    }
-  }
-
-  public void delete() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM animals WHERE id=:id;";
-      con.createQuery(sql)
-        .addParameter("id", id)
-        .executeUpdate();
-    }
-  }
-
-  public List<Sighting> getSightings() {
+  public List<Sighting> getSightings() {//no need to change method
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
         List<Sighting> sightings = con.createQuery(sql)
           .addParameter("id", id)
+        //  .throwOnMappingFailure(false)//looks like its redundant
           .executeAndFetch(Sighting.class);
       return sightings;
     }

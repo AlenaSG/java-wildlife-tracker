@@ -2,103 +2,54 @@ import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EndangeredAnimal {
-  public String name;
-  public int id;
-  public boolean endangered;
-  private String health;
-  private String age;
+public class EndangeredAnimal extends Animal {
 
-  public EndangeredAnimal(String name, String health, String age) {
+  // private String ageLevel;
+  // public static final String MAX_AGE_LEVEL = adult;
+  // public static final String MED_AGE_LEVEL = young;
+  // public static final String MIN_AGE_LEVEL = newborn;
+  //
+  // private String healthLevel;
+  // public static final String MAX_HEALTH_LEVEL = healthy;
+  // public static final String MED_HEALTH_LEVEL = ok;
+  // public static final String MIN_HEALTH_LEVEL = ill;
+
+  public static final String DATABASE_TYPE = "endangered";
+
+  public EndangeredAnimal(String name) {
     this.name = name;
     this.id = id;
-    this.health = health;
-    this.age = age;
+    // this.healthLevel = healthLevel;
+    // this.healthLevel = healthLevel;
+    type = DATABASE_TYPE;
   }
 
-  public String getHealth() {
-    return health;
-  }
-
-  public String getAge() {
-    return age;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  @Override
-  public boolean equals(Object otherEndangeredAnimal) {
-    if(!(otherEndangeredAnimal instanceof EndangeredAnimal)) {
-      return false;
-    } else {
-      EndangeredAnimal newEndangeredAnimal = (EndangeredAnimal) otherEndangeredAnimal;
-      return this.getName().equals(newEndangeredAnimal.getName()) && this.getHealth().equals(newEndangeredAnimal.getHealth()) && this.getAge().equals(newEndangeredAnimal.getAge());
-    }
-  }
-
-  public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO endangered_animals (name, health, age) VALUES (:name, :health, :age);";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .addParameter("health", this.health)
-        .addParameter("age", this.age)
-        .executeUpdate()
-        .getKey();
-    }
-  }
+  // public String getHealthLevel() {
+  //   return healthLevel;
+  // }
+  //
+  // public String getAgeLevel() {
+  //   return ageLevel;
+  // }
 
   public static List<EndangeredAnimal> all() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM endangered_animals;";
-      return con.createQuery(sql)
-        .executeAndFetch(EndangeredAnimal.class);
+    String sql = "SELECT * FROM animals WHERE type = 'endangered';";
+      try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).
+      //.throwOnMappingFailure(false);
+      executeAndFetch(EndangeredAnimal.class);
+
     }
   }
 
   public static EndangeredAnimal find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM endangered_animals WHERE id=:id;";
+      String sql = "SELECT * FROM animals WHERE id=:id;";
       EndangeredAnimal endangeredanimal = con.createQuery(sql)
         .addParameter("id", id)
+        //.throwOnMappingFailure(false);
         .executeAndFetchFirst(EndangeredAnimal.class);
       return endangeredanimal;
-    }
-  }
-
-  public void updateHealth(String health) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE endangered_animals SET health=:health WHERE id=:id;";
-      con.createQuery(sql)
-        .addParameter("id", id)
-        .addParameter("health", health)
-        .executeUpdate();
-    }
-  }
-
-  public void updateAge(String age) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE endangered_animals SET age=:age WHERE id=:id;";
-      con.createQuery(sql)
-        .addParameter("age", age)
-        .addParameter("id", id)
-        .executeUpdate();
-    }
-  }
-
-  public List<Sighting> getSightings() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
-        List<Sighting> sightings = con.createQuery(sql)
-          .addParameter("id", id)
-          .executeAndFetch(Sighting.class);
-      return sightings;
     }
   }
 
