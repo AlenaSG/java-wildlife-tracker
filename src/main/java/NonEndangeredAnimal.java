@@ -13,13 +13,16 @@ public static final String DATABASE_TYPE = "nonendangered";
     type = DATABASE_TYPE;
   }
 
+  public String getType() {
+    return type;
+  }
 
   public static List<NonEndangeredAnimal> all() {
     String sql = "SELECT * FROM animals WHERE type = 'nonendangered';";
       try(Connection con = DB.sql2o.open()) {
-      return con.createQuery(sql).
-      //.throwOnMappingFailure(false);
-      executeAndFetch(NonEndangeredAnimal.class);
+      return con.createQuery(sql)
+      .throwOnMappingFailure(false)
+      .executeAndFetch(NonEndangeredAnimal.class);
     }
   }
 
@@ -28,7 +31,7 @@ public static final String DATABASE_TYPE = "nonendangered";
       String sql = "SELECT * FROM animals WHERE id=:id;";
       NonEndangeredAnimal nonendangeredanimal = con.createQuery(sql)
         .addParameter("id", id)
-        //.throwOnMappingFailure(false);
+        .throwOnMappingFailure(false)
         .executeAndFetchFirst(NonEndangeredAnimal.class);
       return nonendangeredanimal;
     }

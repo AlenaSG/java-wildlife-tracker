@@ -1,0 +1,15 @@
+<h4><a href="/">Home</a></h4>
+
+<h1>$nonendangeredAnimal.getName()</h1>
+<h3>ID: $nonendangeredAnimal.getId()</h3>
+
+#if($nonendangeredAnimal.getSightings().size() == 0)
+  <p>To report a sighting, please visit the <a href="/">home page</a>.</p>
+#else
+  #foreach($sighting in $nonendangeredAnimal.getSightings())
+    Location: $sighting.getLocation()
+    Reported by: $sighting.getRangerName()
+    ID: $sighting.getId()
+    <br>
+  #end
+#end

@@ -8,7 +8,7 @@ public abstract class Animal {
   public String name;
   public int id;
 
-  //public boolean endangered;
+
 
 public String getName() {
     return name;
@@ -44,7 +44,6 @@ public String getName() {
       String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
         List<Sighting> sightings = con.createQuery(sql)
           .addParameter("id", id)
-        //  .throwOnMappingFailure(false)//looks like it's redundant
           .executeAndFetch(Sighting.class);
       return sightings;
     }

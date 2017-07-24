@@ -29,7 +29,7 @@ public class Sighting {
   }
 
   public String getLocation() {
-    return location;
+    return location == null ? "[no location]" : location;
   }
 
   public String getRangerName() {
@@ -71,18 +71,18 @@ public class Sighting {
         .executeAndFetch(Sighting.class);
     }
   }
-  //new
-  public static Sighting findbyTimeSeen(Timestamp timeseen) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE timeseen = :timeseen;";
-      Sighting sighting = con.createQuery(sql)
-        .addParameter("timeseen", timeseen)
-        .executeAndFetchFirst(Sighting.class);
-      return sighting;
-    } catch (IndexOutOfBoundsException exception) {
-      return null;
-    }
-  }
+  //new - delete this method
+  // public static Sighting findbyTimeSeen(Timestamp timeseen) {
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "SELECT * FROM sightings WHERE timeseen = :timeseen;";
+  //     Sighting sighting = con.createQuery(sql)
+  //       .addParameter("timeseen", timeseen)
+  //       .executeAndFetchFirst(Sighting.class);
+  //     return sighting;
+  //   } catch (IndexOutOfBoundsException exception) {
+  //     return null;
+  //   }
+  // }
 
   public static Sighting find(int id) {
     try(Connection con = DB.sql2o.open()) {
@@ -96,11 +96,10 @@ public class Sighting {
     }
   }
 //new - test not passing
-  public static Sighting findbyLatest(Timestamp timeseen) {
+  public static Sighting findbyLatest() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT MAX (timeseen) FROM sightings WHERE timeseen = :timeseen;";
+      String sql = "SELECT * FROM sightings ORDER BY timeseen DESC LIMIT 1;";
       Sighting sighting = con.createQuery(sql)
-        .addParameter("timeseen", timeseen)
         .executeAndFetchFirst(Sighting.class);
       return sighting;
     } catch (IndexOutOfBoundsException exception) {

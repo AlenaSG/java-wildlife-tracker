@@ -15,6 +15,18 @@ public class NonEndangeredAnimalTest {
     assertEquals(true, testNonEndangeredAnimal instanceof NonEndangeredAnimal);
   }
 
+  @Test//new test
+  public void getSightings_retrievesAllSightingsFromDatabase_animalsList() {
+    NonEndangeredAnimal testNonEndangeredAnimal = new NonEndangeredAnimal("Fox");
+    testNonEndangeredAnimal.save();
+    Sighting firstSighting = new Sighting(testNonEndangeredAnimal.getId(), "Site A", "Ranger Bill");
+    firstSighting.save();
+    Sighting secondSighting = new Sighting(testNonEndangeredAnimal.getId(), "Site B", "Ranger Brad");
+    secondSighting.save();
+    Object[] sightings = new Object[] { firstSighting, secondSighting };
+    assertTrue(testNonEndangeredAnimal.getSightings().containsAll(Arrays.asList(sightings)));
+  }
+
   @Test
   public void getName_NonEndangeredAnimalInstantiatesWithName_Deer() {
     NonEndangeredAnimal testNonEndangeredAnimal = new NonEndangeredAnimal("Deer");
@@ -34,6 +46,14 @@ public class NonEndangeredAnimalTest {
     testNonEndangeredAnimal.save();
     NonEndangeredAnimal savedNonEndangeredAnimal = NonEndangeredAnimal.all().get(0);
     assertEquals(testNonEndangeredAnimal.getId(), savedNonEndangeredAnimal.getId());
+  }
+
+  @Test//new test
+  public void NonEndangeredAnimal_instantiatesWithAType() {
+    NonEndangeredAnimal testNonEndangeredAnimal = new NonEndangeredAnimal("Deer");
+    testNonEndangeredAnimal.save();
+    String savedType = NonEndangeredAnimal.find(testNonEndangeredAnimal.getId()).getType();
+    assertEquals("nonendangered", savedType);
   }
 
   @Test

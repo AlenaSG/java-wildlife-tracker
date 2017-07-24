@@ -46,35 +46,14 @@ public class SightingTest {
   public void findbyLatest_returnsSightingWithLatestTimeSeen_secondTestSighting() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Deer");
     testEndangeredAnimal.save();
-    Sighting testSighting = new Sighting (testEndangeredAnimal.getId(), "Site B", "Ranger Avery");
-    testSighting.save();
-    Timestamp savedTimeseen = Sighting.find(testSighting.getId()).getTimeseen();
-            System.out.println(savedTimeseen);
-    EndangeredAnimal secondTestEndangeredAnimal = new EndangeredAnimal("Badger");
-    secondTestEndangeredAnimal.save();
-    Sighting secondTestSighting = new Sighting (testEndangeredAnimal.getId(), "Site A", "Ranger Reese");
-    secondTestSighting.save();
-    Timestamp secondSavedTimeseen = Sighting.find(secondTestSighting.getId()).getTimeseen();
-            System.out.println(secondSavedTimeseen);
-    assertEquals(Sighting.findbyLatest(secondSavedTimeseen), secondTestSighting);
-  }//error in the assertion - what the assertion should be???
+    Sighting prevSighting = new Sighting (testEndangeredAnimal.getId(), "Site B", "Ranger Avery");
+    prevSighting.save();
+    Sighting lastSighting = new Sighting (testEndangeredAnimal.getId(), "Site A", "Ranger Alice");
+    lastSighting.save();
 
-  // @Test//new//not working
-  // public void find_returnsSightingBasedOnTimeseen_secondSighting() {
-  //   EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Deer");
-  //   testEndangeredAnimal.save();
-  //   Sighting testSighting = new Sighting (testEndangeredAnimal.getId(), "Site B", "Ranger Brad");
-  //   testSighting.save();
-  //   EndangeredAnimal secondTestEndangeredAnimal = new EndangeredAnimal("Badger");
-  //   secondTestEndangeredAnimal.save();
-  //   Sighting secondTestSighting = new Sighting (testEndangeredAnimal.getId(), "Site A", "Ranger Bill");
-  //   secondTestSighting.save();
-  //
-  //   Timestamp savedTimeseen = Sighting.find(secondTestSighting.getId()).getTimeseen();
-  //   //testSighting.getTimeseen();
-  //   assertEquals(savedTimeseen, Sighting.findbyTimeSeen(now()));
-  //
-  // }
+    Sighting actualLastSighting = Sighting.findbyLatest();
+    assertEquals(actualLastSighting.getId(), lastSighting.getId());
+  }
 
   @Test//checked
   public void save_insertsObjectIntoDatabase_Sighting() {
@@ -85,7 +64,7 @@ public class SightingTest {
     assertEquals(true, Sighting.all().get(0).equals(testSighting));
   }
 
-  @Test//checed
+  @Test//checked
   public void all_returnsAllInstancesOfSighting_true() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Deer");
     testEndangeredAnimal.save();
