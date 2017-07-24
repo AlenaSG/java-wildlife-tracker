@@ -81,7 +81,7 @@ public class NonEndangeredAnimalTest {
      firstNonEndangeredAnimal.save();
      firstNonEndangeredAnimal.updateName("Wolf");
      assertEquals("Wolf", NonEndangeredAnimal.find(firstNonEndangeredAnimal.getId()).getName());
-   }//assertEquals("Wolf", firstNonEndangeredAnimal.getName());
+   }
 
    @Test//new
    public void delete_deletesAnimal_true() {
@@ -90,7 +90,7 @@ public class NonEndangeredAnimalTest {
      int firstNonEndangeredAnimalId = firstNonEndangeredAnimal.getId();
      firstNonEndangeredAnimal.delete();
      assertEquals(null, NonEndangeredAnimal.find(firstNonEndangeredAnimalId));
-   }//assertEquals(0, NonEndangeredAnimal.all().size());
+   }
 
 
   @Test
