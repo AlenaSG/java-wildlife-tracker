@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.sql.Timestamp;
 import java.util.Date;
-//import java.text.DateFormat;//??
 
 public class Sighting {
   private int animal_id;
@@ -29,7 +28,7 @@ public class Sighting {
   }
 
   public String getLocation() {
-    return location == null ? "[no location]" : location;
+    return location;
   }
 
   public String getRangerName() {
@@ -39,7 +38,7 @@ public class Sighting {
   public Timestamp getTimeseen(){
     return timeseen;
   }
-//checked
+
   @Override
   public boolean equals(Object otherSighting) {
     if(!(otherSighting instanceof Sighting)) {
@@ -49,7 +48,7 @@ public class Sighting {
       return this.getAnimalId() == (newSighting.getAnimalId()) && this.getLocation().equals(newSighting.getLocation()) && this.getRangerName().equals(newSighting.getRangerName());
     }
   }
-//checked
+
   public void save() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO sightings (animal_id, location, ranger_name, timeseen) VALUES (:animal_id, :location, :ranger_name, now());";
@@ -71,18 +70,8 @@ public class Sighting {
         .executeAndFetch(Sighting.class);
     }
   }
-  //new - delete this method
-  // public static Sighting findbyTimeSeen(Timestamp timeseen) {
-  //   try(Connection con = DB.sql2o.open()) {
-  //     String sql = "SELECT * FROM sightings WHERE timeseen = :timeseen;";
-  //     Sighting sighting = con.createQuery(sql)
-  //       .addParameter("timeseen", timeseen)
-  //       .executeAndFetchFirst(Sighting.class);
-  //     return sighting;
-  //   } catch (IndexOutOfBoundsException exception) {
-  //     return null;
-  //   }
-  // }
+
+
 
   public static Sighting find(int id) {
     try(Connection con = DB.sql2o.open()) {
@@ -95,7 +84,7 @@ public class Sighting {
       return null;
     }
   }
-//new - test not passing
+
   public static Sighting findbyLatest() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings ORDER BY timeseen DESC LIMIT 1;";
