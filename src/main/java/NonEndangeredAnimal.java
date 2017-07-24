@@ -36,10 +36,4 @@ public static final String DATABASE_TYPE = "nonendangered";
       return nonendangeredanimal;
     }
   }
-
-
-
-
-
-
 }
