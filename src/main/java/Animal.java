@@ -49,7 +49,6 @@ public String getName() {
     }
   }
 
-//what if change none-ndangered animal into endangered? fill out additional fields for age and health?
   public void updateName(String name) {//leave here in abstract
     try(Connection con = DB.sql2o.open()) {
       String sql = "UPDATE animals SET name=:name WHERE id=:id;";
