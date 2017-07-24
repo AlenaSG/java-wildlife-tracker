@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
--- Dumped by pg_dump version 9.5.3
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -34,23 +35,25 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: clients; Type: TABLE; Schema: public; Owner: Guest
+-- Name: animals; Type: TABLE; Schema: public; Owner: alenagolovina
 --
 
-CREATE TABLE clients (
+CREATE TABLE animals (
     id integer NOT NULL,
     name character varying,
-    stylistid integer
+    type character varying,
+    health character varying,
+    age character varying
 );
 
 
-ALTER TABLE clients OWNER TO "Guest";
+ALTER TABLE animals OWNER TO alenagolovina;
 
 --
--- Name: clients_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+-- Name: animals_id_seq; Type: SEQUENCE; Schema: public; Owner: alenagolovina
 --
 
-CREATE SEQUENCE clients_id_seq
+CREATE SEQUENCE animals_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -58,33 +61,35 @@ CREATE SEQUENCE clients_id_seq
     CACHE 1;
 
 
-ALTER TABLE clients_id_seq OWNER TO "Guest";
+ALTER TABLE animals_id_seq OWNER TO alenagolovina;
 
 --
--- Name: clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+-- Name: animals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alenagolovina
 --
 
-ALTER SEQUENCE clients_id_seq OWNED BY clients.id;
+ALTER SEQUENCE animals_id_seq OWNED BY animals.id;
 
 
 --
--- Name: stylists; Type: TABLE; Schema: public; Owner: Guest
+-- Name: sightings; Type: TABLE; Schema: public; Owner: alenagolovina
 --
 
-CREATE TABLE stylists (
+CREATE TABLE sightings (
     id integer NOT NULL,
-    name character varying,
-    image character varying
+    animal_id integer,
+    location character varying,
+    ranger_name character varying,
+    timeseen timestamp without time zone
 );
 
 
-ALTER TABLE stylists OWNER TO "Guest";
+ALTER TABLE sightings OWNER TO alenagolovina;
 
 --
--- Name: stylists_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+-- Name: sightings_id_seq; Type: SEQUENCE; Schema: public; Owner: alenagolovina
 --
 
-CREATE SEQUENCE stylists_id_seq
+CREATE SEQUENCE sightings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -92,101 +97,92 @@ CREATE SEQUENCE stylists_id_seq
     CACHE 1;
 
 
-ALTER TABLE stylists_id_seq OWNER TO "Guest";
+ALTER TABLE sightings_id_seq OWNER TO alenagolovina;
 
 --
--- Name: stylists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+-- Name: sightings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alenagolovina
 --
 
-ALTER SEQUENCE stylists_id_seq OWNED BY stylists.id;
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
---
-
-ALTER TABLE ONLY clients ALTER COLUMN id SET DEFAULT nextval('clients_id_seq'::regclass);
+ALTER SEQUENCE sightings_id_seq OWNED BY sightings.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
+-- Name: animals id; Type: DEFAULT; Schema: public; Owner: alenagolovina
 --
 
-ALTER TABLE ONLY stylists ALTER COLUMN id SET DEFAULT nextval('stylists_id_seq'::regclass);
+ALTER TABLE ONLY animals ALTER COLUMN id SET DEFAULT nextval('animals_id_seq'::regclass);
 
 
 --
--- Data for Name: clients; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Name: sightings id; Type: DEFAULT; Schema: public; Owner: alenagolovina
 --
 
-COPY clients (id, name, stylistid) FROM stdin;
-1	John Joe	1
-2	bill bill	1
-3	bill bill	1
-6	Jill	2
-7	Bear	9
-8	Sven	10
-9	Olaf	10
-10	Elsa	2
-11	Kristoff	2
-12	Hare	9
-13	Beaver	9
-14	Andrey	10
-22	hi	2
-40	noob	2
-41	h	2
-42	Ron	2
+ALTER TABLE ONLY sightings ALTER COLUMN id SET DEFAULT nextval('sightings_id_seq'::regclass);
+
+
+--
+-- Data for Name: animals; Type: TABLE DATA; Schema: public; Owner: alenagolovina
+--
+
+COPY animals (id, name, type, health, age) FROM stdin;
+1	Fox	nonendangered	\N	\N
+2	Wolf	endangered	\N	\N
+3	fox	nonendangered	\N	\N
+4	fox	nonendangered	\N	\N
+5	bear	endangered	\N	\N
+6	Badger	endangered	\N	\N
+7	bunny	nonendangered	\N	\N
+8	Wale	endangered	\N	\N
+9	Wale3	endangered	ok	\N
+10	Wale4	endangered	ill	newborn
 \.
 
 
 --
--- Name: clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+-- Name: animals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alenagolovina
 --
 
-SELECT pg_catalog.setval('clients_id_seq', 42, true);
+SELECT pg_catalog.setval('animals_id_seq', 10, true);
 
 
 --
--- Data for Name: stylists; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Data for Name: sightings; Type: TABLE DATA; Schema: public; Owner: alenagolovina
 --
 
-COPY stylists (id, name, image) FROM stdin;
-9	Masha	https://s-media-cache-ak0.pinimg.com/736x/e9/0f/aa/e90faaf9355596927794e29a6bd287ab--masha-y-medved-masha-and-the-bear.jpg
-2	Anna	https://lumiere-a.akamaihd.net/v1/images/b5da8e4c0046a83b81dbd945719f6b354edd764b.jpeg?region=0,0,450,450
+COPY sightings (id, animal_id, location, ranger_name, timeseen) FROM stdin;
+1	2	\N	Alena	2017-07-23 15:42:49.136023
+2	2	\N		2017-07-23 15:53:19.724715
+3	5	\N	Alice	2017-07-23 15:53:59.932874
+4	4	\N	Alice	2017-07-23 16:14:22.590636
+5	8	Site A	Andrey	2017-07-23 16:38:11.80554
+6	9	A	A	2017-07-23 16:56:11.11809
+7	4	a	a	2017-07-23 16:59:42.854737
+8	10	s	s	2017-07-23 17:42:24.301969
+9	10	d	d	2017-07-23 17:42:41.820322
 \.
 
 
 --
--- Name: stylists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+-- Name: sightings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alenagolovina
 --
 
-SELECT pg_catalog.setval('stylists_id_seq', 6, true);
-
-
---
--- Name: clients_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
---
-
-ALTER TABLE ONLY clients
-    ADD CONSTRAINT clients_pkey PRIMARY KEY (id);
+SELECT pg_catalog.setval('sightings_id_seq', 9, true);
 
 
 --
--- Name: stylists_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
+-- Name: animals animals_pkey; Type: CONSTRAINT; Schema: public; Owner: alenagolovina
 --
 
-ALTER TABLE ONLY stylists
-    ADD CONSTRAINT stylists_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY animals
+    ADD CONSTRAINT animals_pkey PRIMARY KEY (id);
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: epicodus
+-- Name: sightings sightings_pkey; Type: CONSTRAINT; Schema: public; Owner: alenagolovina
 --
 
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM epicodus;
-GRANT ALL ON SCHEMA public TO epicodus;
-GRANT ALL ON SCHEMA public TO PUBLIC;
+ALTER TABLE ONLY sightings
+    ADD CONSTRAINT sightings_pkey PRIMARY KEY (id);
 
 
 --
