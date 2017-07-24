@@ -117,38 +117,6 @@ public class EndangeredAnimalTest {
   String savedAge = EndangeredAnimal.find(testEndangeredAnimal.getId()).getAge();
   assertEquals(EndangeredAnimal.MED_AGE_LEVEL, savedAge);
  }
-  // @Test//new test
-  // public void EndangeredAnimal_instantiatesWithAHelthLevel() {
-  //   EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Deer");
-  //   testEndangeredAnimal.getHealth("ok");
-  //   testEndangeredAnimal.save();
-  //   String savedHealth = EndangeredAnimal.find(testEndangeredAnimal.getId()).getHealth();
-  //   assertEquals("ok", savedHealth);
-  // }
-
-
-  // @Test
-  // public void getHealth_returnsHealthAttribute_true() {
-  //   EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox");
-  //   assertEquals("Healthy", testEndangeredAnimal.getHealth());
-  // }
-
-  // @Test
-  // public void update_updatesHealthAttribute_true() {
-  //   EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox");
-  //   testEndangeredAnimal.save();
-  //   testEndangeredAnimal.updateHealth("ill");
-  //   assertEquals("ill", EndangeredAnimal.find(testEndangeredAnimal.getId()).getHealth());
-  // }
-
-  // @Test
-  // public void update_updatesAgeAttribute_true() {
-  //   EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox");
-  //   testEndangeredAnimal.save();
-  //   testEndangeredAnimal.updateAge("Adult");
-  //   assertEquals("Adult", EndangeredAnimal.find(testEndangeredAnimal.getId()).getAge());
-  // }
-
-
-
 }
+ 
+ 
